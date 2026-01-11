@@ -5,7 +5,14 @@ const client = new LMStudioClient({ baseUrl: "ws://localhost:1234" });
 
 async function initModel() {
   console.log("test");
-  model = await client.llm.model("mistralai/ministral-3-3b");
+  try {
+    model = await client.llm.model("mistralai/ministral-3-3b");
+  } catch (e) {
+    console.error(
+      "Non è stato possibile inizializzare il modello. Task relative ad ai non funzioneranno (LM Studio non è avviato?",
+    );
+  }
+
   console.log("Modello caricato con successo");
 }
 
