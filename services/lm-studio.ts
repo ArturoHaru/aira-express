@@ -1,15 +1,14 @@
 import { LMStudioClient } from "@lmstudio/sdk";
 
 let model: any;
-const client = new LMStudioClient({ baseUrl: "ws://localhost:1234" });
+const client = new LMStudioClient({ baseUrl: process.env.LLM_WEBSOCKET });
 
 async function initModel() {
-  console.log("test");
   try {
     model = await client.llm.model("mistralai/ministral-3-3b");
   } catch (e) {
     console.error(
-      "Non è stato possibile inizializzare il modello. Task relative ad ai non funzioneranno (LM Studio non è avviato?",
+      "Non è stato possibile inizializzare il modello. Task relative ad ai non funzioneranno (LM Studio non è avviato?)",
     );
   }
 
