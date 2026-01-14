@@ -9,5 +9,5 @@ export const getLLMResponse = async (
 ) => {
   const prompt = req.body.prompt;
   const llmResponse = await lms.getAnswer(prompt);
-  res.send(llmResponse.content);
+  res.json(llmResponse);
 };
