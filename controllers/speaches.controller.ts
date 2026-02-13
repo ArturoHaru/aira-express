@@ -1,4 +1,8 @@
 import { Request, Response } from "express";
+import {
+  getTranscriptionService,
+  getAudioSynthesisService,
+} from "../services/speaches.service";
 
 import OpenAI from "openai";
 import { toFile } from "openai/uploads.js";
@@ -16,27 +20,14 @@ export const getTranscription = async (req: Request, res: Response) => {
     return;
   }
 
-  const transcription = await client.audio.transcriptions.create({
-    file: await toFile(audio.buffer, audio.originalname, {
-      type: audio.mimetype,
-    }),
-    model: "kp-forks/faster-whisper-small",
-  });
-
-  console.log(transcription);
+  const transcription = await getTranscriptionService(audio);
   res.json(transcription);
 };
 
 export const getAudioSynthesis = async (req: Request, res: Response) => {
   let llmAnswer = req.body.llmAnswer as string;
 
-  const mp3 = await client.audio.speech.create({
-    model: "speaches-ai/piper-it_IT-paola-medium",
-    voice: "paola",
-    input: llmAnswer,
-  });
-
-  const buffer = Buffer.from(await mp3.arrayBuffer());
+  const buffer = await getAudioSynthesisService(llmAnswer);
   res.setHeader("Content-Type", "audio/mpeg");
   res.send(buffer);
 };
