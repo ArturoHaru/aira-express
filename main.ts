@@ -6,6 +6,7 @@ import { dirname } from "path";
 // Assicurati che l'import del router sia corretto per ESM
 import { router as llmRouter } from "./routes/llm.route.js";
 import { router as interactionRouter } from "./routes/interaction.route.js";
+import { router as wakeWordRouter } from "./routes/wakeword.route.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -24,7 +25,7 @@ app.use(cors());
 // Le rotte API devono venire PRIMA della wildcard degli statici
 app.use("/api", llmRouter);
 app.use("/api", interactionRouter);
-
+app.use("/api", wakeWordRouter);
 // --- 2. SERVIRE I FILE STATICI ---
 app.use(express.static(absoluteStaticPath));
 
