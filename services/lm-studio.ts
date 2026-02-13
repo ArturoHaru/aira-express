@@ -1,6 +1,6 @@
-import { LMStudioClient } from "@lmstudio/sdk";
+import { LLM, LMStudioClient } from "@lmstudio/sdk";
 
-let model: any;
+let model: LLM;
 const client = new LMStudioClient({ baseUrl: process.env.LLM_WEBSOCKET });
 
 async function initModel() {
@@ -16,12 +16,17 @@ async function initModel() {
 }
 
 export const lms = {
-  async getAnswer(prompt: string) {
+  async getAnswer(
+    prompt: {
+      role: "user" | "assistant" | "system" | undefined;
+      content: string;
+    }[],
+  ) {
     if (!model) {
-      return new Error("Modello non ancora caricato");
+      throw new Error("Modello non ancora caricato");
     }
 
-    const result = await model.respond(prompt ?? "");
+    const result = await model.respond<{ content: string }>(prompt);
     return result;
   },
 };

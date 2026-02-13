@@ -6,13 +6,20 @@ const client = new OpenAI({
   apiKey: "noneed",
 });
 
-export const getTranscriptionService = async (audio: Express.Multer.File) =>
-  await client.audio.transcriptions.create({
+export const getTranscriptionService = async (audio: Express.Multer.File) => {
+  const transcription = await client.audio.transcriptions.create({
     file: await toFile(audio.buffer, audio.originalname, {
       type: audio.mimetype,
     }),
     model: "kp-forks/faster-whisper-small",
   });
+
+  if (!transcription) {
+    console.error("Trascrizione non riuscita");
+    return null;
+  }
+  return transcription.text;
+};
 
 export const getAudioSynthesisService = async (text: string) => {
   const mp3 = await client.audio.speech.create({
