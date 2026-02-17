@@ -24,7 +24,7 @@ export const getTranscriptionService = async (audio: Express.Multer.File) => {
 export const getAudioSynthesisService = async (text: string) => {
   const mp3 = await client.audio.speech.create({
     model: "speaches-ai/Kokoro-82M-v1.0-ONNX-fp16",
-    voice: "im_nicola",
+    voice: "if_sara",
     input: text,
   });
 

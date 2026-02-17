@@ -39,7 +39,7 @@ export const addInteraction = async (req: Request, res: Response) => {
   // Se era l'utente CONCATENA il nuovo prompt al vecchio
 
   const system_prompt =
-    "Sei un assistente digitale. Mantieni le risposte conversazionali e riduci al MINIMO le parole";
+    "Sei un assistente digitale. Mantieni le risposte veloci e conversazionali.";
   const history = [
     {
       role: "system" as "user" | "assistant" | "system" | undefined,
