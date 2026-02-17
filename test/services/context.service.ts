@@ -41,3 +41,10 @@ test("context should not be active when chat has reached timeout", async () => {
   await sleep(1001);
   assert.strictEqual(context.isActive(), false);
 });
+
+test("last message should be correct", () => {
+  const context = new Context("", async () => {}, 1000);
+  context.appendMessage("user", "Messaggio di prova");
+
+  assert.strictEqual(context.lastMessage().getText(), "Messaggio di prova");
+});

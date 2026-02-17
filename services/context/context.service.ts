@@ -1,4 +1,4 @@
-import { Chat } from "@lmstudio/sdk";
+import { Chat, ChatMessage } from "@lmstudio/sdk";
 
 // il contesto è un insieme di messaggi ordinati che vanno mandati all'llm per mantenere la conversazoine
 // dopo due minuti il contesto viene analizzato da un agente Ippotalamo e poi svuotato
@@ -26,6 +26,10 @@ export class Context {
       this.chat = Chat.empty(); //reset chat
       this.chat.replaceSystemPrompt(this.systemPrompt);
     }, this.timoutSeconds);
+  }
+
+  lastMessage(): ChatMessage {
+    return this.chat.at(-1);
   }
 
   isActive(): boolean {
