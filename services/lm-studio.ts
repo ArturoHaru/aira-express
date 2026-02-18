@@ -1,11 +1,12 @@
 import { LLM, LMStudioClient } from "@lmstudio/sdk";
+import { env } from "../env";
 
 export let model: LLM;
-const client = new LMStudioClient({ baseUrl: process.env.LLM_WEBSOCKET });
+const client = new LMStudioClient({ baseUrl: env.LLM_WEBSOCKET });
 
 async function initModel() {
   try {
-    model = await client.llm.model("liquid/lfm2.5-1.2b");
+    model = await client.llm.model(env.LLM_MODEL);
   } catch (e) {
     console.error(
       "Non è stato possibile inizializzare il modello. Task relative ad ai non funzioneranno (LM Studio non è avviato?)",

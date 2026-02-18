@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { lms, model } from "../services/lm-studio";
+import { model } from "../services/lm-studio";
 import { Context } from "../services/context/context.service";
 import {
   getAudioSynthesisService,
@@ -7,7 +7,7 @@ import {
 } from "../services/speaches.service";
 
 const context = new Context(
-  "Sei un assistente digitale. Mantieni le risposte veloci e conversazionali.",
+  "Sei un assistente digitale. Mantieni le risposte veloci e conversazionali. Parla correttamente in italiano.",
   async () => {},
   2 * 60 * 1000, //2 minuti
 );

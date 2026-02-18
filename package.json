@@ -5,10 +5,10 @@
   "license": "ISC",
   "author": "",
   "type": "module",
-  "main": "index.js",
+  "main": "main.ts",
   "scripts": {
     "test": "node --import tsx --test test/**/*.ts",
-    "start": "node --import tsx main.ts"
+    "start": "node --import tsx --env-file=.env main.ts"
   },
   "dependencies": {
     "@lmstudio/sdk": "^1.5.0",

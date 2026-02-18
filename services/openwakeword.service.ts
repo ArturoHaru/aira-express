@@ -1,9 +1,9 @@
 import axios from "axios";
-import https from "https";
+import { env } from "../env";
 
 export const checkService = async (audio: Express.Multer.File) => {
   // Se sai che c'è un redirect, è meglio usare direttamente https://
-  const endpoint = "http://lily.home:5000/check-wakeword";
+  const endpoint = env.OPENWAKEWORD_ENDPOINT;
 
   // 1. Costruisci il FormData correttamente
   const formData = new FormData();

@@ -1,8 +1,9 @@
 import OpenAI from "openai";
 import { toFile } from "openai/uploads.js";
+import { env } from "../env";
 
 const client = new OpenAI({
-  baseURL: "http://lily.home:8000/v1",
+  baseURL: env.SPEACHES_BASE_URL,
   apiKey: "noneed",
 });
 
@@ -11,7 +12,7 @@ export const getTranscriptionService = async (audio: Express.Multer.File) => {
     file: await toFile(audio.buffer, audio.originalname, {
       type: audio.mimetype,
     }),
-    model: "devilteo911/whisper-small-ita-ct2",
+    model: env.SPEACHES_TRANSCRIPTION_MODEL,
   });
 
   if (!transcription) {
@@ -23,8 +24,8 @@ export const getTranscriptionService = async (audio: Express.Multer.File) => {
 
 export const getAudioSynthesisService = async (text: string) => {
   const mp3 = await client.audio.speech.create({
-    model: "speaches-ai/Kokoro-82M-v1.0-ONNX-fp16",
-    voice: "im_nicola",
+    model: env.SPEACHES_SYNTHESIS_MODEL,
+    voice: env.SPEACHES_SYNTHESIS_VOICE,
     input: text,
   });
 
