@@ -44,8 +44,13 @@ export const addInteraction = async (req: Request, res: Response) => {
       console.log(`Answer: ${message}`);
       try {
         const llmAudio = await getAudioSynthesisService(message.getText());
+        context.appendMessage(message.getRole(), message.getText());
         res.setHeader("Content-Type", "audio/mpeg");
         res.send(llmAudio);
+        console.log("-----------------");
+        for (let message of context.chat.getMessagesArray()) {
+          console.log(message.getText());
+        }
       } catch (e) {
         console.error(e);
         res.status(500).send(e);

@@ -11,7 +11,7 @@ export const getTranscriptionService = async (audio: Express.Multer.File) => {
     file: await toFile(audio.buffer, audio.originalname, {
       type: audio.mimetype,
     }),
-    model: "kp-forks/faster-whisper-small",
+    model: "devilteo911/whisper-small-ita-ct2",
   });
 
   if (!transcription) {
@@ -24,7 +24,7 @@ export const getTranscriptionService = async (audio: Express.Multer.File) => {
 export const getAudioSynthesisService = async (text: string) => {
   const mp3 = await client.audio.speech.create({
     model: "speaches-ai/Kokoro-82M-v1.0-ONNX-fp16",
-    voice: "if_sara",
+    voice: "im_nicola",
     input: text,
   });
 

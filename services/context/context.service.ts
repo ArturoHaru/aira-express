@@ -18,7 +18,10 @@ export class Context {
     this.chat.replaceSystemPrompt(systemPrompt);
   }
 
-  appendMessage(role: "user" | "assistant", content: string) {
+  appendMessage(
+    role: "user" | "assistant" | "tool" | "system",
+    content: string,
+  ) {
     this.chat.append(role, content);
     if (this.timer) clearTimeout(this.timer); //reset timemout
     this.timer = setTimeout(async () => {

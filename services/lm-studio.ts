@@ -5,7 +5,7 @@ const client = new LMStudioClient({ baseUrl: process.env.LLM_WEBSOCKET });
 
 async function initModel() {
   try {
-    model = await client.llm.model("mistralai/ministral-3-3b");
+    model = await client.llm.model("liquid/lfm2.5-1.2b");
   } catch (e) {
     console.error(
       "Non è stato possibile inizializzare il modello. Task relative ad ai non funzioneranno (LM Studio non è avviato?)",
