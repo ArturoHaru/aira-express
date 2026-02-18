@@ -1,6 +1,6 @@
 import { LLM, LMStudioClient } from "@lmstudio/sdk";
 
-let model: LLM;
+export let model: LLM;
 const client = new LMStudioClient({ baseUrl: process.env.LLM_WEBSOCKET });
 
 async function initModel() {
