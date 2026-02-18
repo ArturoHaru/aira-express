@@ -48,3 +48,46 @@ test("last message should be correct", () => {
 
   assert.strictEqual(context.lastMessage().getText(), "Messaggio di prova");
 });
+
+test("should add a new message if the latter was the assistant one", () => {
+  const context = new Context("", async () => {}, 1000);
+  //Simula una conversazione dove l'AI ha appena risposto
+  context.appendMessage("user", "Ciao");
+  context.appendMessage("assistant", "Ciao a te!");
+
+  // Azione
+  context.insertUserMessage("Come stai?");
+
+  // Verifica
+  // Assumiamo che context.chat esponga i messaggi o abbia un metodo getter
+  const lastMsg = context.lastMessage();
+
+  assert.ok(lastMsg, "Message should exist");
+  assert.strictEqual(lastMsg.getRole(), "user", "Role should be 'user'");
+  assert.strictEqual(
+    lastMsg.getText(),
+    "Come stai?",
+    "Content should match input",
+  );
+});
+
+test("should concatenate to last message if the latter was the user one", () => {
+  const context = new Context("", async () => {}, 1000);
+  //Simula una conversazione dove l'AI ha appena risposto
+  context.appendMessage("user", "Ciao.");
+
+  // Azione
+  context.insertUserMessage("Come stai?");
+
+  // Verifica
+  // Assumiamo che context.chat esponga i messaggi o abbia un metodo getter
+  const lastMsg = context.lastMessage();
+
+  assert.ok(lastMsg, "Message should exist");
+  assert.strictEqual(lastMsg.getRole(), "user", "Role should be 'user'");
+  assert.strictEqual(
+    lastMsg.getText(),
+    "Ciao. Come stai?",
+    `Content should match last message + new input, instead got: "${lastMsg.getText()}"`,
+  );
+});

@@ -35,4 +35,21 @@ export class Context {
   isActive(): boolean {
     return this.chat.length !== 1;
   }
+  /**
+   * Contiene la logica per decidere se appendere l'input all'ultimo messaggio o crearne uno nuovo
+   */
+  insertUserMessage(message: string) {
+    if (this.isActive()) {
+      if (this.lastMessage().getRole() === "assistant") {
+        // Se era l'assistente, appendi il prompt normalmente all'oggetto
+        this.appendMessage("user", message);
+      } else {
+        // Se era l'utente concatena il nuovo prompt al vecchio
+        const lastUserMessage = this.lastMessage().getText();
+        this.lastMessage().replaceText(`${lastUserMessage} ${message}`);
+      }
+    } else {
+      this.appendMessage("user", message);
+    }
+  }
 }

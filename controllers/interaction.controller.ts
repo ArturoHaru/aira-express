@@ -36,24 +36,20 @@ export const addInteraction = async (req: Request, res: Response) => {
 
   //2 Controllo del flow della trascrizione:
   // se il prompt è stato mandato quando un oggetto di contesto è attivo, controlla chi è stato l'ultimo attore della conversazione.
-  if (context.isActive()) {
-    if (context.lastMessage().getRole() === "assistant") {
-      // Se era l'assistente, appendi il prompt normalmente all'oggetto
-      context.appendMessage("user", transcription);
-    } else {
-      // Se era l'utente concatena il nuovo prompt al vecchio
-      const lastUserMessage = context.lastMessage();
-      context.lastMessage().replaceText(`${lastUserMessage} ${transcription}`);
-    }
-  }
+  context.insertUserMessage(transcription);
 
   //3 manda trascrizione ad llm
   await model.act(context.chat, [], {
     onMessage: async (message) => {
       console.log(`Answer: ${message}`);
-      const llmAudio = await getAudioSynthesisService(message.getText());
-      res.setHeader("Content-Type", "audio/mpeg");
-      res.send(llmAudio);
+      try {
+        const llmAudio = await getAudioSynthesisService(message.getText());
+        res.setHeader("Content-Type", "audio/mpeg");
+        res.send(llmAudio);
+      } catch (e) {
+        console.error(e);
+        res.status(500).send(e);
+      }
     },
   });
 };
