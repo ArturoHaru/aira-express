@@ -60,6 +60,11 @@ export const addInteraction = async (req: Request, res: Response) => {
 
     res.setHeader("Content-Type", "audio/mpeg");
     res.send(llmAudio);
+
+    console.log("----------------HISTORY----------------");
+    for (let msg of context.chat.getMessagesArray()) {
+      console.log(`${msg.getRole()}: ${msg.getText()}`);
+    }
   } catch (e) {
     console.log(e);
     res.status(500).send(e);
