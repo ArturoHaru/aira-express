@@ -55,4 +55,10 @@ export class Context {
       this.appendMessage("user", message);
     }
   }
+
+  replaceLastMessage(text: string) {
+    if (text === "") return;
+    this.lastMessage().replaceText(text);
+    return this.lastMessage();
+  }
 }
