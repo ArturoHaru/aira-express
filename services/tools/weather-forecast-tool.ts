@@ -28,8 +28,7 @@ export const weatherForecast = tool({
     try {
       const weatherResponse = await axios.get(endpoint, {
         headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJiYjE2ZWY3ZTBkOTE0N2RhYWI2MDY2MjY5NWRiMjI4ZCIsImlhdCI6MTc2ODY0MTQxOCwiZXhwIjoyMDg0MDAxNDE4fQ.WGfBnGX2QCKDr6vSgl8uVVeycB8YTT6YDbO6Nyq38uQ",
+          Authorization: `Bearer ${env.HOME_ASSISTANT_TOKEN}`,
           "Content-Type": "application/json",
         },
       });
