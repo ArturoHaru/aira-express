@@ -5,6 +5,7 @@ import {
   getAudioSynthesisService,
   getTranscriptionService,
 } from "../services/speaches.service";
+import { tools } from "../services/tools/tools";
 
 const context = new Context(
   "Sei un assistente digitale. Mantieni le risposte veloci e conversazionali. Parla correttamente in italiano.",
@@ -39,22 +40,33 @@ export const addInteraction = async (req: Request, res: Response) => {
   context.insertUserMessage(transcription);
 
   //3 manda trascrizione ad llm
-  await model.act(context.chat, [], {
+
+  await model.act(context.chat, tools, {
     onMessage: async (message) => {
-      console.log(`Answer: ${message}`);
-      try {
-        const llmAudio = await getAudioSynthesisService(message.getText());
-        context.appendMessage(message.getRole(), message.getText());
-        res.setHeader("Content-Type", "audio/mpeg");
-        res.send(llmAudio);
-        console.log("-----------------");
-        for (let message of context.chat.getMessagesArray()) {
-          console.log(message.getText());
-        }
-      } catch (e) {
-        console.error(e);
-        res.status(500).send(e);
+      const role = message.getRole();
+
+      if (role === "tool") return;
+      else {
+        //role === assistant
+        if (context.lastMessage().getRole() === "assistant")
+          context.replaceLastMessage(message.getText());
+        else context.appendMessage("assistant", message.getText());
       }
     },
   });
+  try {
+    const lastMessageText = context.lastMessage().getText();
+    const llmAudio = await getAudioSynthesisService(lastMessageText);
+
+    res.setHeader("Content-Type", "audio/mpeg");
+    res.send(llmAudio);
+
+    console.log("----------------HISTORY----------------");
+    for (let msg of context.chat.getMessagesArray()) {
+      console.log(`${msg.getRole()}: ${msg.getText()}`);
+    }
+  } catch (e) {
+    console.log(e);
+    res.status(500).send(e);
+  }
 };
