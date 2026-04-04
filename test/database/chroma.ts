@@ -5,6 +5,7 @@ import {
   client,
   addMemory,
   getAllMemory,
+  queryMemory,
 } from "../../database/chroma-db/chroma";
 
 const TEST_COLLECTION_NAME: string = "test-collection";
@@ -39,7 +40,7 @@ test("insert a memory in collection", async () => {
   assert.strictEqual(retrival.metadatas[0]?.importance, 10);
 });
 
-test("get all added collections", async () => {
+test("get all added element in the collection", async () => {
   //prepare
   const collection = await client.getOrCreateCollection({
     name: TEST_COLLECTION_NAME,
@@ -55,9 +56,36 @@ test("get all added collections", async () => {
   }
 
   //assert
-  const retrival = await collection.get();
+  const retrival = await getAllMemory(collection);
 
   for (let i = 0; i < 10; i++) {
     assert.strictEqual(retrival.documents[i], "TEST MEMORY" + i);
   }
+});
+
+test("query should return results in the collection", async () => {
+  //prepare
+  const collection = await client.getOrCreateCollection({
+    name: TEST_COLLECTION_NAME,
+    embeddingFunction: new OpenAIEmbeddingFunction({
+      apiKey: "nope",
+      modelName: "text-embedding-nomic-embed-text-v1.5",
+      apiBase: "http://localhost:1234/v1",
+    }),
+  });
+
+  await addMemory(
+    collection,
+    "A rainbow is a natural fenomenom",
+    10,
+    Date.now().toString(),
+  );
+
+  let retrieval = await queryMemory(collection, "What is a rainbow?");
+
+  assert.strictEqual(
+    retrieval.documents[0].toString(),
+    "A rainbow is a natural fenomenom",
+    "It has instead returned: " + retrieval.documents[0],
+  );
 });

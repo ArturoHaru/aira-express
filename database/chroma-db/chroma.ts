@@ -38,6 +38,12 @@ export async function addMemory(
   });
 }
 
-export async function getAllMemory() {
+export async function getAllMemory(collection: Collection) {
   return await collection.get();
+}
+
+export async function queryMemory(collection: Collection, query: string) {
+  return await collection.query({
+    queryTexts: [query],
+  });
 }
