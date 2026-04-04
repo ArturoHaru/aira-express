@@ -143,3 +143,5 @@ vite.config.ts.timestamp-*
 #audio files
 *.mp3
 *.wav
+
+data/
