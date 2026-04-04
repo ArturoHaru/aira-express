@@ -3,6 +3,7 @@ import { z } from "zod";
 export const ControlDeviceSchema = {
   entity_id: z
     .enum([
+      //Aggiungi qui i dispositivi come elencati da home assistant
       "light.lampada",
       "switch.macchinetta_caffe_socket_1",
       "switch.forno_socket_1",

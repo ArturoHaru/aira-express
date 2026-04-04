@@ -22,10 +22,12 @@ export const addInteraction = async (req: Request, res: Response) => {
     console.error("Nessun audio caricato");
     return;
   }
+
   const transcriptionPromise = getTranscriptionService(audio);
   transcriptionPromise.then(() => {
     console.log("Trascrizione completata:");
   });
+
   const transcription = await transcriptionPromise;
   console.log(transcription);
   if (!transcription) {
@@ -33,14 +35,13 @@ export const addInteraction = async (req: Request, res: Response) => {
     return;
   }
 
-  //Opzionale: fa controllare la trascrizione da un agente
+  //TODO usa la trascrizione per cercare nel database
 
   //2 Controllo del flow della trascrizione:
   // se il prompt è stato mandato quando un oggetto di contesto è attivo, controlla chi è stato l'ultimo attore della conversazione.
   context.insertUserMessage(transcription);
 
   //3 manda trascrizione ad llm
-
   await model.act(context.chat, tools, {
     onMessage: async (message) => {
       const role = message.getRole();
