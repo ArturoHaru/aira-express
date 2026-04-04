@@ -1,0 +1,9 @@
+services:
+  chromadb:
+    image: chromadb/chroma
+    restart: always
+    env_file: .env
+    volumes:
+      - ${CHROMA_VOLUME_LOCATION}:/data
+    ports:
+      - "9876:8000"
