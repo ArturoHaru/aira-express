@@ -25,7 +25,13 @@ test("Context should correctly contain inserted messages", async () => {
 
 test("Context should correctly nuke chat after timeout", async (t) => {
   t.mock.timers.enable({ apis: ["setTimeout"] });
-  const context = new Context("Test system prompt", async () => {}, 100);
+  const context = new Context(
+    "Test system prompt",
+    async () => {
+      t.todo("Works even if test fails");
+    },
+    100,
+  );
 
   context.appendMessage("user", "user test message");
   context.appendMessage("assistant", "assistant test message");
@@ -36,6 +42,6 @@ test("Context should correctly nuke chat after timeout", async (t) => {
   );
 
   t.mock.timers.tick(110);
-  t.todo("Works even if test fails");
+
   assert.strictEqual(context.chat.length, 0);
 });
