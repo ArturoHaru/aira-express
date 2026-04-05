@@ -8,7 +8,7 @@ export const client = new ChromaClient({
   port: 9876,
 });
 
-const collection = await client.getOrCreateCollection({
+export const collection = await client.getOrCreateCollection({
   name: "memory",
   embeddingFunction: new OpenAIEmbeddingFunction({
     apiKey: "nope",

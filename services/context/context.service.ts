@@ -1,7 +1,7 @@
 import { Chat, ChatMessage } from "@lmstudio/sdk";
 
 // il contesto è un insieme di messaggi ordinati che vanno mandati all'llm per mantenere la conversazoine
-// dopo due minuti il contesto viene analizzato da un agente Ippotalamo e poi svuotato
+
 export class Context {
   /**
    *
@@ -13,7 +13,7 @@ export class Context {
   constructor(
     private systemPrompt: string,
     private onTimeoutEnd: (chat: Chat) => Promise<void>,
-    private timoutSeconds: number = 5000,
+    private timeoutSeconds: number = 5000,
   ) {
     this.chat.replaceSystemPrompt(systemPrompt);
   }
@@ -26,9 +26,9 @@ export class Context {
     if (this.timer) clearTimeout(this.timer); //reset timemout
     this.timer = setTimeout(async () => {
       await this.onTimeoutEnd(this.chat); //analizza la chat
-      this.chat = Chat.empty(); //reset chat
+      this.nukeChat(); //reset chat
       this.chat.replaceSystemPrompt(this.systemPrompt);
-    }, this.timoutSeconds);
+    }, this.timeoutSeconds);
   }
 
   lastMessage(): ChatMessage {
@@ -60,5 +60,12 @@ export class Context {
     if (text === "") return;
     this.lastMessage().replaceText(text);
     return this.lastMessage();
+  }
+
+  /**
+   * Resets the chat history
+   */
+  nukeChat() {
+    this.chat = Chat.empty();
   }
 }

@@ -8,12 +8,31 @@ import {
 import { tools } from "../services/tools/tools";
 import { extractInformation } from "../services/agent/hypothalamus";
 import { rateInformation } from "../services/agent/judge";
+import {
+  addMemory,
+  collection as memoryCollection,
+} from "../database/chroma-db/chroma";
 
 const context = new Context(
   "Sei un assistente digitale. Mantieni le risposte veloci e conversazionali. Parla correttamente in italiano.",
   async () => {
-    //estrai informazioni
-    let info = extractInformation(context.chat);
+    try {
+      //estrai informazioni
+      let info = await extractInformation(context.chat);
+      //fai valutare le informazioni
+      let score = parseInt((await rateInformation(info.content)).content);
+      if (score > 5) {
+        //salva informazione in chromadb
+        await addMemory(
+          memoryCollection,
+          info.content,
+          score,
+          Date.now().toString(),
+        );
+      }
+    } catch (e) {
+      console.log(e, "Errore durante il salvataggio delle informazioni");
+    }
   },
   2 * 60 * 1000, //2 minuti
 );
