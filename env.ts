@@ -10,6 +10,7 @@ const envSchema = z.object({
   SPEACHES_TRANSCRIPTION_MODEL: z.string().min(1),
   SPEACHES_SYNTHESIS_MODEL: z.string().min(1),
   SPEACHES_SYNTHESIS_VOICE: z.string().min(1),
+  CHROMA_VOLUME_LOCATION: z.string().min(1),
 });
 
 export const env = envSchema.parse(process.env);
