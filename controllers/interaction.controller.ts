@@ -6,10 +6,15 @@ import {
   getTranscriptionService,
 } from "../services/speaches.service";
 import { tools } from "../services/tools/tools";
+import { extractInformation } from "../services/agent/hypothalamus";
+import { rateInformation } from "../services/agent/judge";
 
 const context = new Context(
   "Sei un assistente digitale. Mantieni le risposte veloci e conversazionali. Parla correttamente in italiano.",
-  async () => {},
+  async () => {
+    //estrai informazioni
+    let info = extractInformation(context.chat);
+  },
   2 * 60 * 1000, //2 minuti
 );
 

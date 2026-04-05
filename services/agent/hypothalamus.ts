@@ -1,32 +1,29 @@
-import { ChatMessage } from "@lmstudio/sdk";
-import { Collection } from "chromadb";
-import axios from "axios";
+import { Chat } from "@lmstudio/sdk";
 import { model } from "../lm-studio";
-import { env } from "../../env";
-import { Chat } from "openai/resources.js";
 import { Context } from "../context/context.service";
 
-export function extractInformation(history: ChatMessage[]) {
+export async function extractInformation(history: Chat) {
   let historyString = getHistoryString(history);
-  let answer = getInformationsFromHypoAgent(historyString);
+  let answer = await getInformationsFromHypoAgent(historyString);
 
   return answer;
 }
 
-function getInformationsFromHypoAgent(history: string) {
+async function getInformationsFromHypoAgent(history: string) {
   const SYSTEM_PROMPT =
     "Estrai dalle conversazioni che ti verranno inviate una singola informazione importante riguardo l'utente che sarebbe utile l'assistete ricordasse. Rispondi con una singola frase essenziale.";
 
   let context = new Context(SYSTEM_PROMPT, async () => {});
   context.appendMessage("user", history);
-  return model.respond(context.chat);
+  return await model.respond(context.chat);
 }
 
-function getHistoryString(history: ChatMessage[]): string {
+function getHistoryString(history: Chat): string {
   let historyString = "";
 
-  history.forEach((message) => {
-    historyString += message.getRole() + ": " + message.getText() + "/n";
+  history.getMessagesArray().forEach((message) => {
+    historyString += message.getRole() + ": " + message.getText() + "\n";
   });
+
   return historyString;
 }
