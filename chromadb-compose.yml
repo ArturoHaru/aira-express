@@ -1,5 +1,5 @@
 services:
-  chromadb:
+  aira-chromadb:
     image: chromadb/chroma
     restart: always
     env_file: .env
