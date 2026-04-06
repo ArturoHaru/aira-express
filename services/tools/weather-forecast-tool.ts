@@ -1,6 +1,6 @@
 import { tool } from "@lmstudio/sdk";
 import axios from "axios";
-import { env } from "../../env";
+import { env } from "../../env.js";
 import { z } from "zod";
 
 const baseAddress = env.HOME_ASSISTANT_BASE_URL;

@@ -8,7 +8,8 @@
   "main": "main.ts",
   "scripts": {
     "test": "node --import tsx --test test/**/*.ts",
-    "start": "node --import tsx --env-file=.env main.ts"
+    "start": "node --import tsx --env-file=.env main.ts",
+    "startProduction": "node --env-file=.env dist/main.js"
   },
   "dependencies": {
     "@chroma-core/openai": "^0.1.10",
@@ -20,7 +21,8 @@
     "multer": "^2.0.2",
     "node-addon-api": "^8.7.0",
     "openai": "^6.16.0",
-    "uuid": "^13.0.0"
+    "uuid": "^13.0.0",
+    "typescript": "^5.9.3"
   },
   "devDependencies": {
     "@types/axios": "^0.9.36",

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { checkService } from "../services/openwakeword.service";
+import { checkService } from "../services/openwakeword.service.js";
 
 export const check = async (req: Request, res: Response) => {
   const audio = req.file as Express.Multer.File;

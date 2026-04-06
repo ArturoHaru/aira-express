@@ -1,6 +1,6 @@
 import { string, z } from "zod";
-import { ControlDeviceSchema } from "./devices";
-import { env } from "../../env";
+import { ControlDeviceSchema } from "./devices.js";
+import { env } from "../../env.js";
 import { tool } from "@lmstudio/sdk";
 import axios from "axios";
 

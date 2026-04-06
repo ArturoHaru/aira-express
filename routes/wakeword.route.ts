@@ -1,6 +1,6 @@
 import { Router } from "express";
 import multer from "multer";
-import { check } from "../controllers/wakeword.controller";
+import { check } from "../controllers/wakeword.controller.js";
 
 const upload = multer({ storage: multer.memoryStorage() });
 export const router = Router();

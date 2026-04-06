@@ -1,6 +1,6 @@
 //Rendi la scelta dell'llm dinamica
 import { NextFunction, Request, Response } from "express";
-import { lms } from "../services/lm-studio";
+import { lms } from "../services/lm-studio.js";
 
 export const getLLMResponse = async (
   req: Request,

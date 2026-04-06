@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { model } from "../services/lm-studio";
-import { Context } from "../services/context/context.service";
+import { model } from "../services/lm-studio.js";
+import { Context } from "../services/context/context.service.js";
 import {
   getAudioSynthesisService,
   getTranscriptionService,
-} from "../services/speaches.service";
-import { tools } from "../services/tools/tools";
+} from "../services/speaches.service.js";
+import { tools } from "../services/tools/tools.js";
 
 const context = new Context(
   "Sei un assistente digitale. Mantieni le risposte veloci e conversazionali. Parla correttamente in italiano.",

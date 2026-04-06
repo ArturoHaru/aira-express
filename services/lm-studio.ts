@@ -1,5 +1,5 @@
 import { LLM, LMStudioClient } from "@lmstudio/sdk";
-import { env } from "../env";
+import { env } from "../env.js";
 
 export let model: LLM;
 const client = new LMStudioClient({ baseUrl: env.LLM_WEBSOCKET });

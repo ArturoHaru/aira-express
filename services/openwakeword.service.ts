@@ -1,5 +1,5 @@
 import axios from "axios";
-import { env } from "../env";
+import { env } from "../env.js";
 
 export const checkService = async (audio: Express.Multer.File) => {
   // Se sai che c'è un redirect, è meglio usare direttamente https://

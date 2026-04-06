@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 import { toFile } from "openai/uploads.js";
-import { env } from "../env";
+import { env } from "../env.js";
 
 const client = new OpenAI({
   baseURL: env.SPEACHES_BASE_URL,
